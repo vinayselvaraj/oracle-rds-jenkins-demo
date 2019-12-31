@@ -1,0 +1,60 @@
+---
+Description: Oracle RDS
+Parameters:
+  DBInstanceIdentifier:
+    Type: String
+    Default: RDSDB
+  VpcId:
+    Type: AWS::EC2::VPC::Id
+  DBSubnets:
+    Description: Subnets to use for the RDS instance
+    Type: List<AWS::EC2::Subnet::Id>
+Resources:
+
+  DBSecurityGroup:
+    Type: AWS::EC2::SecurityGroup
+    Properties:
+      GroupDescription: Oracle RDS DB Security Group
+      SecurityGroupEgress:
+        - CidrIp: 0.0.0.0/0
+          Description: Allow all outbound traffic by default
+          IpProtocol: "-1"
+      VpcId: !Ref VpcId
+  
+  DBSecret:
+    Type: AWS::SecretsManager::Secret
+    Properties:
+      GenerateSecretString:
+        ExcludePunctuation: true
+  
+  DBSubnetGroup:
+    Type: AWS::RDS::DBSubnetGroup
+    Properties:
+      DBSubnetGroupDescription: Subnet group for RDS instance
+      SubnetIds: !Ref DBSubnets
+
+  RDSInstance:
+    Type: AWS::RDS::DBInstance
+    Properties:
+      DBInstanceClass: db.m5.large
+      AllocatedStorage: "100"
+      CopyTagsToSnapshot: true
+      DBInstanceIdentifier: !Ref DBInstanceIdentifier
+      DBSubnetGroupName:
+        Ref: DBSubnetGroup
+      DeletionProtection: true
+      Engine: sqlserver-se
+      LicenseModel: license-included
+      MasterUsername: admin
+      MasterUserPassword:
+        Fn::Join:
+          - ""
+          - - "{{resolve:secretsmanager:"
+            - Ref: DBSecret
+            - :SecretString:::}}
+      PubliclyAccessible: false
+      StorageType: gp2
+      VPCSecurityGroups:
+        - Fn::GetAtt:
+            - DBSecurityGroup
+            - GroupId
