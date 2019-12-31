@@ -45,12 +45,10 @@ pipeline {
                         script: "aws secretsmanager get-secret-value --secret-id ${SECRET_ARN} --query \"SecretString\" --output text",
                         returnStdout: true
                     ).trim()
+
+                    echo "${DB_HOSTNAME}.${DB_PORT}"
+                    echo "admin / ${DB_PASSWORD}"
                 }
-
-
-                echo "${DB_HOSTNAME}.${DB_PORT}"
-                echo "admin / ${DB_PASSWORD}"
-
             }
         }
     }
