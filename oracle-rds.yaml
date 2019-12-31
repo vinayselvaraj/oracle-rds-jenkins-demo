@@ -47,7 +47,7 @@ Resources:
         Ref: DBSubnetGroup
       DeletionProtection: true
       Engine: oracle-ee-18
-      LicenseModel: license-included
+      LicenseModel: bring-your-own-license
       AssociatedRoles: 
         -
           FeatureName: s3Import
