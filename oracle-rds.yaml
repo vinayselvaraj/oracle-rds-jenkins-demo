@@ -9,6 +9,9 @@ Parameters:
   DBSubnets:
     Description: Subnets to use for the RDS instance
     Type: List<AWS::EC2::Subnet::Id>
+  RDSInstanceIAMRoles:
+    Description: IAM Roles associated with the DB instance
+    Type: List<String>
 
 Resources:
   DBSecurityGroup:
@@ -45,6 +48,7 @@ Resources:
       DeletionProtection: true
       Engine: sqlserver-se
       LicenseModel: license-included
+      AssociatedRoles: !Ref RDSInstanceIAMRoles
       MasterUsername: admin
       MasterUserPassword:
         Fn::Join:
