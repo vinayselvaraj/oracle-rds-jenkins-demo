@@ -26,17 +26,17 @@ pipeline {
                 echo 'Deploying Database related code and scripts...'
 
                 DB_HOSTNAME = sh (
-                    script: 'aws cloudformation describe-stacks --stack-name oracle-rds-demo --query "Stacks[0].Outputs[?OutputKey=='RDSInstanceEndpointAddress'].OutputValue" --output text',
+                    script: "aws cloudformation describe-stacks --stack-name oracle-rds-demo --query \"Stacks[0].Outputs[?OutputKey=='RDSInstanceEndpointAddress'].OutputValue\" --output text",
                     returnStdout: true
                 ).trim()
 
                 DB_PORT = sh (
-                    script: 'aws cloudformation describe-stacks --stack-name oracle-rds-demo --query "Stacks[0].Outputs[?OutputKey=='RDSInstanceEndpointPort'].OutputValue" --output text',
+                    script: "aws cloudformation describe-stacks --stack-name oracle-rds-demo --query \"Stacks[0].Outputs[?OutputKey=='RDSInstanceEndpointPort'].OutputValue\" --output text",
                     returnStdout: true
                 ).trim()
 
                 SECRET_ARN = sh (
-                    script: 'aws cloudformation describe-stacks --stack-name oracle-rds-demo --query "Stacks[0].Outputs[?OutputKey=='DBSecretARN'].OutputValue" --output text',
+                    script: "aws cloudformation describe-stacks --stack-name oracle-rds-demo --query \"Stacks[0].Outputs[?OutputKey=='DBSecretARN'].OutputValue\" --output text",
                     returnStdout: true
                 ).trim()
 
