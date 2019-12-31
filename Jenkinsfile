@@ -24,6 +24,30 @@ pipeline {
         stage('Database Deploy') {
             steps {
                 echo 'Deploying Database related code and scripts...'
+
+                DB_HOSTNAME = sh (
+                    script: 'aws cloudformation describe-stacks --stack-name oracle-rds-demo --query "Stacks[0].Outputs[?OutputKey=='RDSInstanceEndpointAddress'].OutputValue" --output text',
+                    returnStdout: true
+                ).trim()
+
+                DB_PORT = sh (
+                    script: 'aws cloudformation describe-stacks --stack-name oracle-rds-demo --query "Stacks[0].Outputs[?OutputKey=='RDSInstanceEndpointPort'].OutputValue" --output text',
+                    returnStdout: true
+                ).trim()
+
+                SECRET_ARN = sh (
+                    script: 'aws cloudformation describe-stacks --stack-name oracle-rds-demo --query "Stacks[0].Outputs[?OutputKey=='DBSecretARN'].OutputValue" --output text',
+                    returnStdout: true
+                ).trim()
+
+                DB_PASSWORD = sh (
+                    script: "aws secretsmanager get-secret-value --secret-id ${SECRET_ARN} --query \"SecretString\" --output text",
+                    returnStdout: true
+                ).trim()
+
+                echo "${DB_HOSTNAME}.${DB_PORT}"
+                echo "admin / ${DB_PASSWORD}"
+
             }
         }
     }
