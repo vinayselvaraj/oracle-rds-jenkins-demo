@@ -9,8 +9,8 @@ Parameters:
   DBSubnets:
     Description: Subnets to use for the RDS instance
     Type: List<AWS::EC2::Subnet::Id>
-Resources:
 
+Resources:
   DBSecurityGroup:
     Type: AWS::EC2::SecurityGroup
     Properties:
@@ -58,3 +58,14 @@ Resources:
         - Fn::GetAtt:
             - DBSecurityGroup
             - GroupId
+
+Outputs:
+  RDSInstanceEndpointAddress:
+    Description: RDS Instance Endpoint Address
+    Value: !GetAtt RDSInstance.Endpoint.Address
+  RDSInstanceEndpointPort:
+    Description: RDS Instance Endpoint Port
+    Value: !GetAtt RDSInstance.Endpoint.Port
+  DBSecretARN:
+    Description: DB Secret ARN
+    Value: !Ref DBSecret
