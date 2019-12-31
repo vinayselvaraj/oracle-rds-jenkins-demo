@@ -17,7 +17,7 @@ pipeline {
         stage('CloudFormation Deploy') {
             steps {
                 echo 'Deploying CloudFormation stack...'
-                sh "aws cloudformation deploy --template-file oracle-rds.yaml --stack-name oracle-rds  --parameter-overrides VpcId=${VPC_ID} DBSubnets=${SUBNET_IDS} --no-fail-on-empty-changeset"
+                sh "aws cloudformation deploy --template-file oracle-rds.yaml --stack-name oracle-rds-demo  --parameter-overrides VpcId=${VPC_ID} DBSubnets=${SUBNET_IDS} --no-fail-on-empty-changeset"
             }
         }
     }
