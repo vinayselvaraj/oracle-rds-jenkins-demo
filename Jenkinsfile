@@ -13,12 +13,6 @@ pipeline {
     }
 
     stages {
-        stage('Validate') {
-            steps {
-                echo 'Validating CloudFormation template...'
-                sh "aws cloudformation validate-template --template-body file://oracle-rds.yaml"
-            }
-        }
         stage('CloudFormation Deploy') {
             steps {
                 echo 'Deploying CloudFormation stack...'
