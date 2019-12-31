@@ -46,7 +46,7 @@ Resources:
       DBSubnetGroupName:
         Ref: DBSubnetGroup
       DeletionProtection: true
-      Engine: sqlserver-se
+      Engine: oracle-ee-18
       LicenseModel: license-included
       AssociatedRoles: 
         -

@@ -21,5 +21,10 @@ pipeline {
                 sh "aws cloudformation deploy --template-file oracle-rds.yaml --stack-name oracle-rds-demo  --parameter-overrides VpcId=${VPC_ID} DBSubnets=${SUBNET_IDS} RDSS3IAMRoleArn=${RDS_IAM_ROLE} --no-fail-on-empty-changeset"
             }
         }
+        stage('Database Deploy') {
+            steps {
+                echo 'Deploying Database related code and scripts...'
+            }
+        }
     }
 }
