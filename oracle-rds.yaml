@@ -1,9 +1,6 @@
 ---
 Description: Oracle RDS
 Parameters:
-  DBInstanceIdentifier:
-    Type: String
-    Default: RDSDB
   VpcId:
     Type: AWS::EC2::VPC::Id
   DBSubnets:
@@ -29,6 +26,7 @@ Resources:
     Properties:
       GenerateSecretString:
         ExcludePunctuation: true
+        PasswordLength: 30
   
   DBSubnetGroup:
     Type: AWS::RDS::DBSubnetGroup
@@ -42,15 +40,15 @@ Resources:
       DBInstanceClass: db.m5.large
       AllocatedStorage: "100"
       CopyTagsToSnapshot: true
-      DBInstanceIdentifier: !Ref DBInstanceIdentifier
       DBSubnetGroupName:
         Ref: DBSubnetGroup
       DeletionProtection: true
-      Engine: oracle-ee-18
+      Engine: oracle-ee
+      EngineVersion: 18.0.0.0.ru-2019-10.rur-2019-10.r1
       LicenseModel: bring-your-own-license
       AssociatedRoles: 
         -
-          FeatureName: s3Import
+          FeatureName: S3_INTEGRATION
           RoleArn: !Ref RDSS3IAMRoleArn
       MasterUsername: admin
       MasterUserPassword:
