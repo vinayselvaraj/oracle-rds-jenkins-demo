@@ -1,6 +1,10 @@
 pipeline {
     agent any
 
+    environment {
+        PATH = "/usr/local/bin:$PATH"
+    }
+
     parameters {
         string(name: 'AWS_DEFAULT_REGION', defaultValue: 'us-east-1', description: 'AWS Region')
         string(name: 'VPC_ID', description: 'VPC ID')
