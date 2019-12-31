@@ -46,7 +46,7 @@ pipeline {
                         returnStdout: true
                     ).trim()
 
-                    echo "${DB_HOSTNAME}.${DB_PORT}"
+                    echo "${DB_HOSTNAME}:${DB_PORT}"
                     echo "admin / ${DB_PASSWORD}"
                 }
             }
