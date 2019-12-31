@@ -9,9 +9,9 @@ Parameters:
   DBSubnets:
     Description: Subnets to use for the RDS instance
     Type: List<AWS::EC2::Subnet::Id>
-  RDSInstanceIAMRoles:
-    Description: IAM Roles associated with the DB instance
-    Type: List<String>
+  RDSS3IAMRoleArn:
+    Description: RDS IAM Role for use with s3Import
+    Type: String
 
 Resources:
   DBSecurityGroup:
@@ -48,7 +48,10 @@ Resources:
       DeletionProtection: true
       Engine: sqlserver-se
       LicenseModel: license-included
-      AssociatedRoles: !Ref RDSInstanceIAMRoles
+      AssociatedRoles: 
+        -
+          FeatureName: s3Import
+          RoleArn: !Ref RDSS3IAMRoleArn
       MasterUsername: admin
       MasterUserPassword:
         Fn::Join:
